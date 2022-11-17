@@ -1,5 +1,9 @@
 # Daily News Shorts
 
+Start mongodb with `docker-compose up -d --build`
+Start `collector` with `python3 collect/main.py`
+
+
 ## Data Ingestion
 
 [Web Scraping](Daily%20News%20Shorts%202c0634dfa4254d6584c2f87811f62235/Web%20Scraping%20220c92dca1714940ad0519a89cbf3ac9.md)
