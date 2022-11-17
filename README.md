@@ -1,6 +1,6 @@
 # Daily News Shorts
 
-Start mongodb with `docker-compose up -d --build`
+Start `mongodb` with `docker-compose up -d --build`
 
 Start `collector` with `python3 collect/main.py`
 
