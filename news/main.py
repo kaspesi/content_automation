@@ -6,6 +6,7 @@ def main():
     url = "https://www.axios.com"
     # Starts the collector which collects data asyncronously in a seperate thread
     collectors = [ Collector(url) ]
+    
 
 if __name__ == '__main__':
     # only needed when running outside of containerized environment
