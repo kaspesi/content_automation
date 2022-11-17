@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-from collect.article import Article
+from news.collect.article import Article
 
 
 class Site:

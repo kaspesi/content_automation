@@ -1,8 +1,6 @@
-from collect.site import Site
+from news.collect.site import Site
 from threading import Timer
 from mongodb.mongo_client import MongoClient
-
-db = MongoClient().db()
 
 class Collector(Timer):
 
@@ -19,7 +17,7 @@ class Collector(Timer):
         # Check if we have the article in the database
         # If not, add it to the database
         # If so, do nothing
-        
+        db = MongoClient('news').db()
         print("Saving... (not implemented)")
 
     def _run(self):

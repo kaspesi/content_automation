@@ -1,5 +1,5 @@
 from dotenv import load_dotenv
-from collect.collector import Collector
+from news.collect.collector import Collector
 
 def main():
     """main routine"""
