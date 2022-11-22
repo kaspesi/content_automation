@@ -5,3 +5,4 @@ webdriver-manager
 packaging
 colorama
 pymongo
+urllib
