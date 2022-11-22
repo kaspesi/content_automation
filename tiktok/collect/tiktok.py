@@ -25,6 +25,7 @@ class Tiktok:
         options.add_argument("start-maximized")
         options.add_argument('--disable-blink-features=AutomationControlled')
         self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+        
         self.get_clip_urls()
 
     def __str__(self) -> str:
@@ -58,13 +59,17 @@ class Tiktok:
         print(like_count, comment_count, share_count)
         share_button = button_group.find_element(By.XPATH, ".//strong[@data-e2e = 'share-count']/parent::*")
         share_button.click()
-        video_link = self.driver.find_element(By.XPATH, ".//a[@data-e2e = 'video-share-whatsapp']").get_attribute('href')
-        print(Tiktok.format_url(video_link))
+        share_url = self.driver.find_element(By.XPATH, ".//a[@data-e2e = 'video-share-whatsapp']").get_attribute('href')
+        print(Tiktok.format_url(share_url))
+        download_url = self.get_download_url(share_url)
+        print(download_url)
 
     def get_posts_data(self, button_groups):
         for button_group in button_groups:
             print(button_group.text)
             self.get_post_data(button_group)
+            self.driver.execute_script("arguments[0].scrollIntoView(true);", button_group)
+            time.sleep(5)
         
 
     def get_clip_urls(self):
@@ -85,3 +90,26 @@ class Tiktok:
             for button in buttons:
                 f.write(f"{button.text}\n")
         self.driver.quit()
+    
+    def get_download_url(self, share_url):
+        headers = {
+            'accept': 'application/json, text/javascript, */*; q=0.01',
+            'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+            #'cookie': 'current_language=en; _ga=GA1.1.115940210.1660795490; _gcl_au=1.1.669324151.1660795490; _ga_5370HT04Z3=GS1.1.1660795489.1.1.1660795513.0.0.0',
+            'sec-ch-ua': '"Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"',
+            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36'
+        }
+        data = {
+            "url": share_url,
+            "count": 12,
+            "cursor": 0,
+            "web": 1,
+            "hd": 1
+        }
+
+        response = requests.post("https://www.tikwm.com/api/", headers=headers, data=data).json()
+        print(response)
+        download_url = "https://www.tikwm.com/" + response["data"]["hdplay"] if response["data"]["hdplay"] else response["data"]["play"]
+        
+        return download_url
+
