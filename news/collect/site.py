@@ -30,8 +30,6 @@ class Site:
                 article_url = url + article_html.h2.a['href']
                 article_title = article_html.h2.a['aria-label']
                 articles.append(Article(article_url, article_title))
-                # TODO REMOVE THIS LINE BELOW!!!
-                return articles
             except:
                 pass
         return articles
