@@ -39,7 +39,6 @@ class Collector(Timer):
             raise Exception("Collector: Cannot collect URL is None")
         self.site = Site(self.articles_collection, self.url)
         print(self.site)
-        self.save(self.site)
 
     def _run(self):
         self.is_running = False
@@ -47,7 +46,7 @@ class Collector(Timer):
         self.collect()
         # Clean the site
         # Save the site to database
-        # self.save
+        self.save(self.site)
         self.start()
         print("Running collector...")
 
