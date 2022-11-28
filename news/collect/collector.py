@@ -1,6 +1,7 @@
 from news.collect.site import Site
 from threading import Timer
-from mongodb.mongo_client import MongoClient
+from mongodb.mongo_client import MongoClientSingleton
+from colorama import Fore, Back, Style
 
 class Collector(Timer):
 
@@ -8,17 +9,26 @@ class Collector(Timer):
         self.url = url
         self.site = Site(self.url)
         print(self.site)
+        self.save(self.site)
 
         # Enable this eventually
         # self.start()
 
-    def save(self):
+    def save(self, site):
         # Get the URLs of the articles in the site
         # Check if we have the article in the database
         # If not, add it to the database
         # If so, do nothing
-        db = MongoClient('news').db()
-        print("Saving... (not implemented)")
+        articles_collection = MongoClientSingleton().get_collection("news", "articles")
+        for article in site.articles:
+            if article is None:
+                continue
+            article_lookup = articles_collection.find_one({"url": article.url})
+            if article_lookup is None:
+                articles_collection.insert_one(article.__dict__)
+                print("Added article to database: " + str(article))
+            else:
+                print(Fore.RED + "Article already exists in database: " + str(article.url) + Style.RESET_ALL)
 
     def _run(self):
         self.is_running = False

@@ -36,6 +36,10 @@ class Article:
             if sibbling.name == 'div':
                 return sibbling
 
+    # Chunks: [Chunk]
+    # Chunk:
+    #  main: string
+    #  bullets: [string]
     @staticmethod
     def get_chunks(body):
         chunks = []
