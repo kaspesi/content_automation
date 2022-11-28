@@ -7,33 +7,49 @@ class Collector(Timer):
 
     def __init__(self, url):
         self.url = url
-        self.site = Site(self.url)
-        print(self.site)
-        self.save(self.site)
+        self.is_running = False
+        self.interval = 10 # seconds
+        self.articles_collection = MongoClientSingleton().get_collection("news", "articles")
+        # self.site = Site(self.url)
+        # print(self.site)
+        # self.save(self.site)
 
         # Enable this eventually
         # self.start()
 
     def save(self, site):
-        # Get the URLs of the articles in the site
-        # Check if we have the article in the database
-        # If not, add it to the database
-        # If so, do nothing
-        articles_collection = MongoClientSingleton().get_collection("news", "articles")
+        
+        if(site.articles is None):
+            print (Fore.RED + "No articles to save")
+            return
+
+        print("Saving articles to database..." + str(site.articles))
         for article in site.articles:
             if article is None:
                 continue
-            article_lookup = articles_collection.find_one({"url": article.url})
+            article_lookup = self.articles_collection.find_one({"url": article.url})
             if article_lookup is None:
-                articles_collection.insert_one(article.__dict__)
+                self.articles_collection.insert_one(article.__dict__)
                 print("Added article to database: " + str(article))
             else:
                 print(Fore.RED + "Article already exists in database: " + str(article.url) + Style.RESET_ALL)
 
+    def collect(self):
+        if self.url is None:
+            raise Exception("Collector: Cannot collect URL is None")
+        self.site = Site(self.articles_collection, self.url)
+        print(self.site)
+        self.save(self.site)
+
     def _run(self):
         self.is_running = False
+        # Collect the site
+        self.collect()
+        # Clean the site
+        # Save the site to database
+        # self.save
         self.start()
-        self.save
+        print("Running collector...")
 
     # Start scheduled task in thread
     def start(self):

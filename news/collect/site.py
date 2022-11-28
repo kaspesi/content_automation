@@ -5,9 +5,10 @@ from news.collect.article import Article
 
 class Site:
 
-    def __init__(self, url):
-        self.url = "https://www.axios.com"
-        self.articles = Site.get_articles(self.url)
+    def __init__(self, articles_collection, url):
+        self.url = url
+        self.articles_collection = articles_collection
+        self.articles = self.get_articles(self.url)
 
     def __str__(self) -> str:
         retString = ""
@@ -16,8 +17,7 @@ class Site:
             retString += str(article) + '\n\n'
         return retString
 
-    @staticmethod
-    def get_articles(url):
+    def get_articles(self, url):
         if url is None:
             return None
 
@@ -29,7 +29,12 @@ class Site:
             try:
                 article_url = url + article_html.h2.a['href']
                 article_title = article_html.h2.a['aria-label']
-                articles.append(Article(article_url, article_title))
+                article_lookup = self.articles_collection.find_one({"url": article_url})
+                # print("article_lookup: " + str(article_url))
+                if article_lookup is None:
+                    articles.append(Article(article_url, article_title))
+                else:
+                    print("Article already exists: " + article_url)
             except:
                 pass
         return articles
