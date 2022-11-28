@@ -9,10 +9,12 @@ services:
     ports:
       - 27017:27017
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: black-TRUANCY-evince
+      MONGO_INITDB_ROOT_USERNAME: ${MDB_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MDB_PASSWORD}
     volumes:
       - mongodb_data_container:/data/db
+    env_file:
+      - .env
 
 volumes:
   mongodb_data_container:
