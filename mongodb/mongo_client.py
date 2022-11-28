@@ -10,8 +10,6 @@ class MongoClientSingleton(object):
         if cls._instance is None:
             cls._instance = super(MongoClientSingleton, cls).__new__(cls)
         return cls._instance
-        # self.dbs = self.get_dbs()
-        # self.collection = self.db["customers"]
 
     def __init__(self):
         print('Initializing MongoDB client...')
@@ -33,8 +31,3 @@ class MongoClientSingleton(object):
 
     def get_collection(self, database, collection):
         return self.client[database][collection]
-
-    # def get_dbs(self) -> list:
-    #     dbs = {}
-    #     for db in self.client.list_database_names():
-    #         dbs[db] = self.client[db]
