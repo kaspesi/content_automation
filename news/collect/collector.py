@@ -2,6 +2,7 @@ from news.collect.site import Site
 from threading import Timer
 from mongodb.mongo_client import MongoClientSingleton
 from colorama import Fore, Back, Style
+import functools
 
 class Collector(Timer):
 
@@ -39,6 +40,26 @@ class Collector(Timer):
             raise Exception("Collector: Cannot collect URL is None")
         self.site = Site(self.articles_collection, self.url)
         print(self.site)
+
+
+    banned_phrases = [
+        "Go deeper",
+        "Editor's note"
+    ]
+
+    def clean_chunk(self, chunk):
+        # TODO: Implement chunk cleaning here
+        return chunk
+
+    def clean(self):
+        articles = self.site.articles
+        for article in articles:
+            clean_chunks = []
+            text_chunk = article.chunks
+            if functools.reduce(lambda a, b: b in text_chunk and a, self.banned_phrases):
+                print("Banned phrase found in article: " + str(article.url))
+            clean_chunks.append(self.clean_chunk(text_chunk))
+            
 
     def _run(self):
         self.is_running = False

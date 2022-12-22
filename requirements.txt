@@ -4,4 +4,5 @@ selenium
 webdriver-manager
 packaging
 colorama
-pymongo
+pymong
+python-dotenv
