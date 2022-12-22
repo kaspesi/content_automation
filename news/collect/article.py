@@ -17,6 +17,7 @@ class Article:
         if body is None:
             return None
         self.chunks = Article.get_chunks(body)
+        self.text = Article.get_text(self.chunks)
 
     def __str__(self) -> str:
         retString = ""
@@ -65,7 +66,23 @@ class Article:
     def clean_chunk(chunk):
         chunk_content = []
         for content in chunk.contents:
+            if content.name == 'strong':
+                # Keep text if it doesn't end with : to deal with case beginning of sentence is just bold
+                clean_content = content.text.strip()
+                if content.text.strip()[-1] != ':':
+                    chunk_content.append(clean_content)
             if content.name != 'strong':
                 clean_content = content.text.strip().strip(':').strip().lstrip(',').lstrip()
                 chunk_content.append(clean_content)
         return ' '.join(chunk_content)
+
+    @staticmethod
+    def get_text(chunks):
+        text_chunks = []
+        for chunk in chunks:
+            chunk_string = chunk["main"]
+            for bullet in chunk["bullets"]:
+                chunk_string += bullet
+            chunk_string += "\n"
+            text_chunks.append(chunk_string)
+        return "".join(text_chunks)

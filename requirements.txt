@@ -6,3 +6,4 @@ packaging
 colorama
 pymong
 python-dotenv
+bert-extractive-summarizer

@@ -1,5 +1,6 @@
 from dotenv import load_dotenv
 from news.collect.collector import Collector
+from news.summarize.bert_summarizer import BertSummarizer
 
 def main():
     """main routine"""
@@ -8,6 +9,9 @@ def main():
     collectors = [ Collector(url) ]
     for collector in collectors:
         collector.start()
+    summarizers = [ BertSummarizer() ]
+    for summarizer in summarizers:
+       summarizer.start()
     
 
 if __name__ == '__main__':
