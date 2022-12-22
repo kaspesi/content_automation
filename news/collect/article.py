@@ -78,10 +78,11 @@ class Article:
 
     @staticmethod
     def get_text(chunks):
+        text_chunks = []
         for chunk in chunks:
             chunk_string = chunk["main"]
             for bullet in chunk["bullets"]:
                 chunk_string += bullet
-            chunk_string += "\n\n"
-            chunks.append(chunk_string)
-        return "".join(chunks)
+            chunk_string += "\n"
+            text_chunks.append(chunk_string)
+        return "".join(text_chunks)

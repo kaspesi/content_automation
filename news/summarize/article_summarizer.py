@@ -30,7 +30,7 @@ class ArticleSummarizer(Timer, metaclass=abc.ABCMeta):
                     "text": summarized_text
                 }
                 summarized_collection.insert_one(summarized_article)
-                print("Added summarized article" + article["url"] + f"to {self.summarized_collection_str}")
+                print(Fore.BLUE, "Added summarized article: " + Style.RESET_ALL + article["url"] + f" to {self.summarized_collection_str}")
             else:
                 print(Fore.RED + "Article already summarized: " + article["url"] + Style.RESET_ALL)
 

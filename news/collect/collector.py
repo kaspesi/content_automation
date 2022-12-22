@@ -19,8 +19,8 @@ class Collector(Timer):
         # self.start()
 
     def save(self, site):
-        
-        if(not site.articles):
+        print(site.articles)
+        if(site.articles is None):
             print (Fore.RED + "No articles to save" + Style.RESET_ALL)
             return
 

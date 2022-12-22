@@ -9,9 +9,9 @@ def main():
     collectors = [ Collector(url) ]
     for collector in collectors:
         collector.start()
-    #summarizers = [ BertSummarizer() ]
-    #for summarizer in summarizers:
-    #    summarizer.start()
+    summarizers = [ BertSummarizer() ]
+    for summarizer in summarizers:
+       summarizer.start()
     
 
 if __name__ == '__main__':
