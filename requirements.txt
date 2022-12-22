@@ -7,3 +7,6 @@ colorama
 pymong
 python-dotenv
 bert-extractive-summarizer
+pyttsx3
+moviepy
+gTTS
