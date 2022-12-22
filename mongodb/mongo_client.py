@@ -26,8 +26,8 @@ class MongoClientSingleton(object):
         database_names = self.client.list_database_names()
         print('MongoDB databases: ' + str(database_names))
 
-    def get_db(self, database):
-        return self.client[database]
+    def get_db(self, database_str):
+        return self.client.get_database(database_str)
 
-    def get_collection(self, database, collection):
-        return self.client[database][collection]
+    def get_collection(self, database_str, collection_str):
+        return self.client.get_database(database_str).get_collection(collection_str)
