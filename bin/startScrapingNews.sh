@@ -1,4 +1,4 @@
 #!/bin/bash
 
-python3 ../main_news.py
+python3 ../src/main_news.py
 
