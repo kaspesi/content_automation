@@ -65,6 +65,11 @@ class Article:
     def clean_chunk(chunk):
         chunk_content = []
         for content in chunk.contents:
+            if content.name == 'strong':
+                # Keep text if it doesn't end with : to deal with case beginning of sentence is just bold
+                clean_content = content.text.strip()
+                if content.text.strip()[-1] != ':':
+                    chunk_content.append(clean_content)
             if content.name != 'strong':
                 clean_content = content.text.strip().strip(':').strip().lstrip(',').lstrip()
                 chunk_content.append(clean_content)
