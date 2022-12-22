@@ -1,5 +1,5 @@
 from summarizer import Summarizer
-from article_summarizer import ArticleSummarizer
+from news.summarize.article_summarizer import ArticleSummarizer
 
 class BertSummarizer(ArticleSummarizer):
 
@@ -7,7 +7,7 @@ class BertSummarizer(ArticleSummarizer):
         super().__init__()
         self.summarized_collection_str = "bert"
     
-    def transform_text(self, text):
+    def summarize_text(self, text):
         bert_model = Summarizer()
         result = bert_model(text, num_sentences=4)
         return result

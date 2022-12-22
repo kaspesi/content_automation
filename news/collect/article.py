@@ -17,6 +17,7 @@ class Article:
         if body is None:
             return None
         self.chunks = Article.get_chunks(body)
+        self.text = Article.get_text(self.chunks)
 
     def __str__(self) -> str:
         retString = ""
@@ -74,3 +75,13 @@ class Article:
                 clean_content = content.text.strip().strip(':').strip().lstrip(',').lstrip()
                 chunk_content.append(clean_content)
         return ' '.join(chunk_content)
+
+    @staticmethod
+    def get_text(chunks):
+        for chunk in chunks:
+            chunk_string = chunk["main"]
+            for bullet in chunk["bullets"]:
+                chunk_string += bullet
+            chunk_string += "\n\n"
+            chunks.append(chunk_string)
+        return "".join(chunks)

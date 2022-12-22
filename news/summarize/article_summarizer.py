@@ -21,18 +21,18 @@ class ArticleSummarizer(Timer, metaclass=abc.ABCMeta):
 
         for article in articles:
             # Check if a summarized article with the same url exists in summarized_collection
-            summarized_lookup = self.summarized_collection.find_one({"url": article.url})
+            summarized_lookup = summarized_collection.find_one({"url": article["url"]})
             if summarized_lookup is None:
-                summarized_text = self.summarize_text(article.text)
+                summarized_text = self.summarize_text(article["text"])
                 summarized_article = {
-                    "url": article.url,
-                    "title": article.title,
+                    "url": article["url"],
+                    "title": article["title"],
                     "text": summarized_text
                 }
                 summarized_collection.insert_one(summarized_article)
-                print(f"Added summarized article {str(article.url)} to {self.summarized_collection_str}")
+                print("Added summarized article" + article["url"] + f"to {self.summarized_collection_str}")
             else:
-                print(Fore.RED + f"Article already summarized: {str(article.url)}" + Style.RESET_ALL)
+                print(Fore.RED + "Article already summarized: " + article["url"] + Style.RESET_ALL)
 
     @abc.abstractmethod
     def summarize_text(self, text):
