@@ -4,7 +4,7 @@ selenium
 webdriver-manager
 packaging
 colorama
-pymong
+pymongo
 python-dotenv
 bert-extractive-summarizer
 pyttsx3
